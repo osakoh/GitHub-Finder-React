@@ -4,12 +4,15 @@ export class Search extends Component {
     state = {
         text: ''
     }
-
-    onSubmit(e) {
-
+    // event listener for the form
+    onSubmit = e => {
+        e.preventDefault();
+        // passing props upwards to the app js
+        this.props.searchUsers(this.state.text);
+        this.setState({ text: '' });
     }
 
-    // function to get user's input
+    // event listener to get user's input
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     render() {

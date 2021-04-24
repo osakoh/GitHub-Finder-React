@@ -12,13 +12,24 @@ class App extends Component {
   }
 
   // another lifecycle method just like render
-  async componentDidMount() {
-    this.setState({ loading: true }); // changing loading state to true
+  // async componentDidMount() {
+  //   this.setState({ loading: true }); // changing loading state to true
 
-    const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    // reset the states
+  //   const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+  //   // reset the states
+  //   this.setState({
+  //     users: res.data,
+  //     loading: false
+  //   });
+  // }
+
+  // search users
+  searchUsers = async text => {
+    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+
+    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
     this.setState({
-      users: res.data,
+      users: res.data.items,
       loading: false
     });
   }
@@ -29,7 +40,7 @@ class App extends Component {
         <Navbar />
         {/* passing the users & loading as props into the Users component */}
         <div className="container">
-          <Search />
+          <Search searchUsers={this.searchUsers} />  {/* searchUsers: must be the same name as that in Search js */}
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
