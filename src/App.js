@@ -3,12 +3,18 @@ import Navbar from './components/layout/Navbar';  // Navbar import
 import Users from './components/users/Users'; // Users import
 import Search from './components/users/Search'; // Search import
 import axios from 'axios'; // axios import
+import PropTypes from 'prop-types' // PropType import: impt
 import './App.css';
 
 class App extends Component {
   state = {
     users: [],
     loading: false
+  }
+
+  // proptypes
+  static propTypes = {
+    searchUsers: PropTypes.func.isRequired,
   }
 
   // another lifecycle method just like render
@@ -25,13 +31,14 @@ class App extends Component {
 
   // search users
   searchUsers = async text => {
+    // set state before making the request
+    this.setState({ loading: true });
+
+
     const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
 
     // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
-    this.setState({
-      users: res.data.items,
-      loading: false
-    });
+    this.setState({ users: res.data.items, loading: false });
   }
 
   render() {
