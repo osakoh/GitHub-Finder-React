@@ -28,5 +28,6 @@ export default UserItem;
  * pta: PropTypes.array,
  * ptar: PropTypes.array.isRequired,
  *
+ * racf: functional component
  * rce: class based component that exports at the bottom
 */

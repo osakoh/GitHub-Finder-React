@@ -12,14 +12,22 @@ class Search extends Component {
         searchUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
         showClearBtn: PropTypes.bool.isRequired,
+        setAlert: PropTypes.func.isRequired,
     }
 
     // event listener for the form
     onSubmit = e => {
         e.preventDefault();
-        // passing props upwards to the app js
-        this.props.searchUsers(this.state.text);
-        this.setState({ text: '' });
+
+        // validates the input and ensures a text has been inputted
+        if (this.state.text === '') {
+            this.props.setAlert('Empty input! Cannot search', 'danger');
+        } else {
+            // passing props upwards to the app js
+            this.props.searchUsers(this.state.text);
+            this.setState({ text: '' });
+        }
+
     }
 
     // event listener to get user's input
