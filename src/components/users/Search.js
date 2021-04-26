@@ -11,6 +11,7 @@ class Search extends Component {
     static propTypes = {
         searchUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
+        showClearBtn: PropTypes.bool.isRequired,
     }
 
     // event listener for the form
@@ -25,6 +26,9 @@ class Search extends Component {
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     render() {
+        // destructuring showClearBtn & clearUsers from props
+        const { showClearBtn, clearUsers } = this.props;
+
         return (
             <div>
                 <form onSubmit={this.onSubmit} className="form">
@@ -38,7 +42,7 @@ class Search extends Component {
                     <input type="submit" value="Search" className="btn btn-black btn-block btn-sm" />
                 </form>
                 {/* clear btn */}
-                <button className="btn btn-dark btn-block btn-sm" onClick={this.props.clearUsers}>Clear</button>
+                {showClearBtn && <button className="btn btn-dark btn-block btn-sm" onClick={clearUsers}>Clear</button>}
             </div>
         );
     }

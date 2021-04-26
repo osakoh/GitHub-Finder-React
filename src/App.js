@@ -42,13 +42,15 @@ class App extends Component {
   })
 
   render() {
+    // destructuring loading & users from state
+    const { loading, users } = this.state;
     return (
       <div className="App">
         <Navbar />
         {/* passing the users & loading as props into the Users component */}
         <div className="container">
-          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} />  {/* searchUsers: must be the same name as that in Search js */}
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClearBtn={users.length > 0 ? true : false} />  {/* searchUsers: must be the same name as that in Search js */}
+          <Users loading={loading} users={users} />
         </div>
       </div>
 
