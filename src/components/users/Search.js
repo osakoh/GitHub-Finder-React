@@ -1,9 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types' // PropType import: impt
 
-export class Search extends Component {
+
+class Search extends Component {
     state = {
         text: ''
     }
+
+    // proptype for searchUsers
+    static propTypes = {
+        searchUsers: PropTypes.func.isRequired,
+        clearUsers: PropTypes.func.isRequired,
+    }
+
     // event listener for the form
     onSubmit = e => {
         e.preventDefault();
@@ -17,18 +26,22 @@ export class Search extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit} className="form">
-                <input
-                    type="text"
-                    name="text"
-                    placeholder="Search User"
-                    value={this.state.text}
-                    onChange={this.onChange}
-                />
-                <input type="submit" value="Search" className="btn btn-black btn-block" />
-            </form>
-        )
+            <div>
+                <form onSubmit={this.onSubmit} className="form">
+                    <input
+                        type="text"
+                        name="text"
+                        placeholder="Search User"
+                        value={this.state.text}
+                        onChange={this.onChange}
+                    />
+                    <input type="submit" value="Search" className="btn btn-black btn-block btn-sm" />
+                </form>
+                {/* clear btn */}
+                <button className="btn btn-dark btn-block btn-sm" onClick={this.props.clearUsers}>Clear</button>
+            </div>
+        );
     }
 }
 
-export default Search
+export default Search;
