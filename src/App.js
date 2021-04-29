@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';  // Navbar import
 import Users from './components/users/Users'; // Users import
 import Search from './components/users/Search'; // Search import
 import Alert from './components/layout/Alert';
+import About from './components/pages/About';
 import axios from 'axios'; // axios import
 import './App.css';
 
@@ -44,24 +46,37 @@ class App extends Component {
     // destructuring loading & users from state
     const { loading, users, alert } = this.state;
     return (
-      <div className="App">
-        <Navbar />
-        {/* passing the users & loading as props into the Users component */}
-        {/* searchUsers: must be the same name as that in Search js */}
-        <div className="container">
-          <Alert alert={alert} />
-          <Search searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            showClearBtn={users.length > 0 ? true : false}
-            setAlert={this.setAlert}
-          />
-          <Users loading={loading} users={users} />
-        </div>
-      </div>
+      <Router>
+        <div className="App">
+          <Navbar />
+          {/* passing the users & loading as props into the Users component */}
+          {/* searchUsers: must be the same name as that in Search js */}
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              {/* route for home page which contains multiple components */}
+              <Route exact path='/' render={props => (
+                <Fragment>
+                  <Search searchUsers={this.searchUsers}
+                    clearUsers={this.clearUsers}
+                    showClearBtn={users.length > 0 ? true : false}
+                    setAlert={this.setAlert}
+                  />
+                  <Users loading={loading} users={users} />
+                </Fragment>
+              )} />
+              {/* route for home page which contains multiple components */}
 
+              {/* route for about, contains a single component */}
+              <Route exact path='/about' component={About} />
+              {/* route for about, contains a single component */}
+
+            </Switch>
+          </div>
+        </div>
+      </Router>
     );
   }
-
 }
 
 export default App;

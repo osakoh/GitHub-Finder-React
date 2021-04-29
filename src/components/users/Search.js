@@ -25,6 +25,7 @@ class Search extends Component {
         } else {
             // passing props upwards to the app js
             this.props.searchUsers(this.state.text);
+            // clear the search field
             this.setState({ text: '' });
         }
 

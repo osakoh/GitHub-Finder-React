@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 // rce: class based component that exports at the bottom
 
@@ -7,8 +8,16 @@ import PropTypes from 'prop-types';
 const Navbar = ({ icon, title }) =>
     <nav className="navbar bg-primary">
         <h3>
-            <i className={icon}></i>&nbsp;{title}
+            <Link to="/"><i className={icon}></i>&nbsp;{title}</Link>
         </h3>
+        <ul>
+            <li>
+                <Link to="/">Home</Link>
+            </li>
+            <li>
+                <Link to="/about">About</Link>
+            </li>
+        </ul>
     </nav>
 
 
