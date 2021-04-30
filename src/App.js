@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';  // Navbar import
 import Users from './components/users/Users'; // Users import
+import User from './components/users/User'; // User import
 import Search from './components/users/Search'; // Search import
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
@@ -12,6 +13,8 @@ import './App.css';
 class App extends Component {
   state = {
     users: [],
+    user: {},
+    repos: [],
     loading: false,
     alert: null,
   }
@@ -26,6 +29,29 @@ class App extends Component {
     // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
     this.setState({ users: res.data.items, loading: false });
   }
+
+  // get a single Github user
+  getSingleUser = async (username) => {
+    // set state before making the request
+    this.setState({ loading: true });
+
+    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+
+    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
+    this.setState({ user: res.data, loading: false });
+  }
+
+  // get user repos
+  getUserRepos = async (username) => {
+    // set state before making the request
+    this.setState({ loading: true });
+
+    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+
+    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
+    this.setState({ repos: res.data, loading: false });
+  }
+
 
   // clearUsers from state
   clearUsers = () => this.setState({
@@ -44,7 +70,7 @@ class App extends Component {
 
   render() {
     // destructuring loading & users from state
-    const { loading, users, alert } = this.state;
+    const { loading, users, user, alert, repos } = this.state;
     return (
       <Router>
         <div className="App">
@@ -70,6 +96,21 @@ class App extends Component {
               {/* route for about, contains a single component */}
               <Route exact path='/about' component={About} />
               {/* route for about, contains a single component */}
+
+              {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
+              <Route exact path='/user/:login' render={props => (
+                // ... represents the spread operator to capture all the props
+                <User
+                  {...props}
+                  getSingleUser={this.getSingleUser}
+                  user={user}
+                  getUserRepos={this.getUserRepos}
+                  repos={repos}
+                  loading={loading}
+                />
+              )} />
+              {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
+
 
             </Switch>
           </div>
