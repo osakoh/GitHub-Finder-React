@@ -3,7 +3,7 @@ import PropTypes from 'prop-types' // PropType import: impt
 
 // props are passed into the parenthesis in a functional component 
 // destructuring showClearBtn & clearUsers from props
-const Search = ({ showClearBtn, clearUsers, searchUsers, setAlert }) => {
+const Search = ({ showClearBtn, clearUsers, searchUsers, showAlert }) => {
 
     // defining the state- Syntax: [inputName, setInputName]=useState('');
     const [text, setText] = useState('');
@@ -14,7 +14,7 @@ const Search = ({ showClearBtn, clearUsers, searchUsers, setAlert }) => {
 
         // validates the input and ensures a text has been inputted
         if (text === '') {
-            setAlert('Empty input! Cannot search', 'danger');
+            showAlert('Empty input! Cannot search', 'danger');
         } else {
             // passing props upwards to the app js
             searchUsers(text);
@@ -51,7 +51,7 @@ Search.propTypes = {
     searchUsers: PropTypes.func.isRequired,
     clearUsers: PropTypes.func.isRequired,
     showClearBtn: PropTypes.bool.isRequired,
-    setAlert: PropTypes.func.isRequired,
+    showAlert: PropTypes.func.isRequired,
 };
 
 export default Search;
