@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar"; // Navbar import
-import Users from "./components/users/Users"; // Users import
 import User from "./components/users/User"; // User import
-import Search from "./components/users/Search"; // Search import
 import Alert from "./components/layout/Alert";
+import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import GithubState from "./context/github/GithubState";
 import AlertState from "./context/alert/AlertState";
@@ -24,16 +23,7 @@ const App = () => {
               <Alert />
               <Switch>
                 {/* route for home page which contains multiple components */}
-                <Route
-                  exact
-                  path="/"
-                  render={(props) => (
-                    <Fragment>
-                      <Search />
-                      <Users />
-                    </Fragment>
-                  )}
-                />
+                <Route exact path="/" component={Home} />
                 {/* route for home page which contains multiple components */}
 
                 {/* route for about, contains a single component */}
