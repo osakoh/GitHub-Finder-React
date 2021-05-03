@@ -13,25 +13,9 @@ import "./App.css";
 
 const App = () => {
   // defining the state- Syntax: [inputName, setInputName]=useState(defaultValue);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  // get a single Github user
-  const getSingleUser = async (username) => {
-    // set state before making the request
-    setLoading(true);
-
-    const res = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-
-    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
-    setUser(res.data); // formerly: this.setState({ user: res.data, loading: false });
-    setLoading(false);
-  };
 
   // get user repos
   const getUserRepos = async (username) => {
@@ -45,12 +29,6 @@ const App = () => {
     // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
     setRepos(res.data); // formerly: this.setState({ user: res.data, loading: false });
     setLoading(false);
-  };
-
-  // clearUsers from state
-  const clearUsers = () => {
-    setUsers([]); // set users to an empty array
-    setLoading(false); // set loading to false
   };
 
   // showAlert function
@@ -78,11 +56,7 @@ const App = () => {
                 path="/"
                 render={(props) => (
                   <Fragment>
-                    <Search
-                      clearUsers={clearUsers}
-                      showClearBtn={users.length > 0 ? true : false}
-                      showAlert={showAlert}
-                    />
+                    <Search showAlert={showAlert} />
                     <Users />
                   </Fragment>
                 )}
@@ -98,15 +72,8 @@ const App = () => {
                 exact
                 path="/user/:login"
                 render={(props) => (
-                  // ... represents the spread operator to capture all the props
-                  <User
-                    {...props}
-                    getSingleUser={getSingleUser}
-                    user={user}
-                    getUserRepos={getUserRepos}
-                    repos={repos}
-                    loading={loading}
-                  />
+                  // ... represents the spread operator to capture(copy) all the props, before updating them
+                  <User {...props} getUserRepos={getUserRepos} repos={repos} />
                 )}
               />
               {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}

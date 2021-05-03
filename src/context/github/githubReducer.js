@@ -15,21 +15,38 @@ import {
   REMOVE_ALERT,
 } from "../types";
 
-export default (state, action) => {
+const GithubReducer = (state, action) => {
   // evaluates the type dispatched from GithubState.js
   switch (action.type) {
     case SEARCH_USERS:
       return {
         ...state, // ... spread operator, this copyies the state and updates it
-        users: action.payload,
+        users: action.payload, // action.payload contains the data, res.data.items
         loading: false,
       };
+
     case SET_LOADING:
       return {
         ...state, // ... spread operator, this copyies the state and updates it
         loading: true, // set it to true because it was initialised in GithubState.js as false
       };
+
+    case CLEAR_USERS:
+      return {
+        ...state,
+        users: [],
+        loading: false, // set it to true because it was initialised in GithubState.js as false
+      };
+
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }
 };
+
+export default GithubReducer;

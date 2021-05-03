@@ -4,7 +4,7 @@ import GithubContext from "../../context/github/githubContext";
 
 // props are passed into the parenthesis in a functional component
 // destructuring showClearBtn & clearUsers from props
-const Search = ({ showClearBtn, clearUsers, showAlert }) => {
+const Search = ({ showAlert }) => {
   // initialise GithubContext
   const githubContext = useContext(GithubContext);
 
@@ -46,8 +46,11 @@ const Search = ({ showClearBtn, clearUsers, showAlert }) => {
         />
       </form>
       {/* clear btn */}
-      {showClearBtn && (
-        <button className="btn btn-dark btn-block btn-sm" onClick={clearUsers}>
+      {githubContext.users.length > 0 && (
+        <button
+          className="btn btn-dark btn-block btn-sm"
+          onClick={githubContext.clearUsers}
+        >
           Clear
         </button>
       )}
@@ -57,8 +60,6 @@ const Search = ({ showClearBtn, clearUsers, showAlert }) => {
 
 // proptype for searchUsers
 Search.propTypes = {
-  clearUsers: PropTypes.func.isRequired,
-  showClearBtn: PropTypes.bool.isRequired,
   showAlert: PropTypes.func.isRequired,
 };
 

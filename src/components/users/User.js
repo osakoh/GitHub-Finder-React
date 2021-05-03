@@ -1,11 +1,17 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useContext } from "react";
 import Spinner from "../layout/Spinner"; // Spinner import
 import Repos from "../Repos/Repos";
 import PropTypes from "prop-types"; // PropType import: impt
 import { Link } from "react-router-dom";
+import GithubContext from "../../context/github/githubContext";
 
 // destructuring from props
-const User = ({ user, loading, repos, getSingleUser, getUserRepos, match }) => {
+const User = ({ repos, getUserRepos, match }) => {
+  // initialise GithubContext
+  const githubContext = useContext(GithubContext);
+
+  const { getSingleUser, user, loading } = githubContext;
+
   // useEffect hook allows components to have access to the lifecycle events of a component/mimics the lifecycle component(componentDidMount)
   // this is first run by React when the component is first rendered, and on every subsequent render/update
   useEffect(() => {
@@ -115,9 +121,6 @@ const User = ({ user, loading, repos, getSingleUser, getUserRepos, match }) => {
 
 // Proptypes
 User.propTypes = {
-  loading: PropTypes.bool,
-  user: PropTypes.object.isRequired,
-  getSingleUser: PropTypes.func.isRequired,
   getUserRepos: PropTypes.func.isRequired,
   repos: PropTypes.array.isRequired,
 };

@@ -16,7 +16,6 @@ import {
   SET_ALERT,
   REMOVE_ALERT,
 } from "../types";
-import githubContext from "./githubContext";
 
 // initial state
 const GithubState = (props) => {
@@ -45,11 +44,23 @@ const GithubState = (props) => {
     dispatch({ type: SEARCH_USERS, payload: res.data.items });
   };
 
-  // get user
+  // get a single Github user
+  const getSingleUser = async (username) => {
+    // set state before making the request
+    setLoading();
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    // reset the states; individual user's details are stored in a 'data' array as shown in the github documentation
+    dispatch({ type: GET_USER, payload: res.data });
+  };
 
   // get repos
 
-  // clear users
+  // clearUsers from state
+  const clearUsers = () => dispatch({ type: CLEAR_USERS });
 
   // set loading
   // type: match a string variable in type JS
@@ -60,13 +71,15 @@ const GithubState = (props) => {
   return (
     <GithubContext.Provider
       value={{
+        // value contains any variable that should be available to the entire application
         users: state.users,
         user: state.user,
         repos: state.repos,
         loading: state.loading,
-        alert: state.alert,
 
         searchUsers,
+        clearUsers,
+        getSingleUser,
       }} // value contains any variable that should be available to the entire application
     >
       {/* because the entire application will be wrap with the provider*/}
