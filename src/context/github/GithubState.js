@@ -33,21 +33,40 @@ const GithubState = (props) => {
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   // search users
+  const searchUsers = async (text) => {
+    // set state before making the request
+    setLoading(); // formerly: this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    // type: match a string variable in type JS; payload: is the data that is sent
+    dispatch({ type: SEARCH_USERS, payload: res.data.items });
+  };
+
   // get user
+
   // get repos
+
   // clear users
+
   // set loading
+  // type: match a string variable in type JS
+  const setLoading = () => dispatch({ type: SET_LOADING });
   // set alert
   // remove alert
 
   return (
     <GithubContext.Provider
       value={{
-        users: this.state.users,
+        users: state.users,
         user: state.user,
         repos: state.repos,
         loading: state.loading,
         alert: state.alert,
+
+        searchUsers,
       }} // value contains any variable that should be available to the entire application
     >
       {/* because the entire application will be wrap with the provider*/}
