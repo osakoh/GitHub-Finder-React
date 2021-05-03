@@ -7,6 +7,8 @@ import Search from "./components/users/Search"; // Search import
 import Alert from "./components/layout/Alert";
 import About from "./components/pages/About";
 import axios from "axios"; // axios import
+import GithubState from "./context/github/GithubState";
+
 import "./App.css";
 
 const App = () => {
@@ -75,57 +77,59 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        {/* passing the users & loading as props into the Users component */}
-        {/* searchUsers: must be the same name as that in Search js */}
-        <div className="container">
-          <Alert alert={alert} />
-          <Switch>
-            {/* route for home page which contains multiple components */}
-            <Route
-              exact
-              path="/"
-              render={(props) => (
-                <Fragment>
-                  <Search
-                    searchUsers={searchUsers}
-                    clearUsers={clearUsers}
-                    showClearBtn={users.length > 0 ? true : false}
-                    showAlert={showAlert}
+    <GithubState>
+      <Router>
+        <div className="App">
+          <Navbar />
+          {/* passing the users & loading as props into the Users component */}
+          {/* searchUsers: must be the same name as that in Search js */}
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              {/* route for home page which contains multiple components */}
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Fragment>
+                    <Search
+                      searchUsers={searchUsers}
+                      clearUsers={clearUsers}
+                      showClearBtn={users.length > 0 ? true : false}
+                      showAlert={showAlert}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )}
+              />
+              {/* route for home page which contains multiple components */}
+
+              {/* route for about, contains a single component */}
+              <Route exact path="/about" component={About} />
+              {/* route for about, contains a single component */}
+
+              {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
+              <Route
+                exact
+                path="/user/:login"
+                render={(props) => (
+                  // ... represents the spread operator to capture all the props
+                  <User
+                    {...props}
+                    getSingleUser={getSingleUser}
+                    user={user}
+                    getUserRepos={getUserRepos}
+                    repos={repos}
+                    loading={loading}
                   />
-                  <Users loading={loading} users={users} />
-                </Fragment>
-              )}
-            />
-            {/* route for home page which contains multiple components */}
-
-            {/* route for about, contains a single component */}
-            <Route exact path="/about" component={About} />
-            {/* route for about, contains a single component */}
-
-            {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
-            <Route
-              exact
-              path="/user/:login"
-              render={(props) => (
-                // ... represents the spread operator to capture all the props
-                <User
-                  {...props}
-                  getSingleUser={getSingleUser}
-                  user={user}
-                  getUserRepos={getUserRepos}
-                  repos={repos}
-                  loading={loading}
-                />
-              )}
-            />
-            {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
-          </Switch>
+                )}
+              />
+              {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </GithubState>
   );
 };
 
