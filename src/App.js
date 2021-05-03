@@ -17,20 +17,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  // get user repos
-  const getUserRepos = async (username) => {
-    // set state before making the request
-    setLoading(true); // formerly: this.setState({ loading: true });
-
-    const res = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-
-    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
-    setRepos(res.data); // formerly: this.setState({ user: res.data, loading: false });
-    setLoading(false);
-  };
-
   // showAlert function
   const showAlert = (msg, type) => {
     // set the alert in the state
@@ -68,14 +54,7 @@ const App = () => {
               {/* route for about, contains a single component */}
 
               {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
-              <Route
-                exact
-                path="/user/:login"
-                render={(props) => (
-                  // ... represents the spread operator to capture(copy) all the props, before updating them
-                  <User {...props} getUserRepos={getUserRepos} repos={repos} />
-                )}
-              />
+              <Route exact path="/user/:login" component={User} />
               {/* route to display a single user, contains a single component with props; 'login' is the username passed as part of the url*/}
             </Switch>
           </div>
