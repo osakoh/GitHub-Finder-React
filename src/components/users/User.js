@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import GithubContext from "../../context/github/githubContext";
 
 // destructuring from props
-const User = ({ repos, getUserRepos, match }) => {
+const User = ({ match }) => {
   // initialise GithubContext
   const githubContext = useContext(GithubContext);
 
-  const { getSingleUser, user, loading } = githubContext;
+  const { getSingleUser, user, loading, repos, getUserRepos } = githubContext;
 
   // useEffect hook allows components to have access to the lifecycle events of a component/mimics the lifecycle component(componentDidMount)
   // this is first run by React when the component is first rendered, and on every subsequent render/update
@@ -117,12 +117,6 @@ const User = ({ repos, getUserRepos, match }) => {
       <Repos repos={repos} />
     </Fragment>
   );
-};
-
-// Proptypes
-User.propTypes = {
-  getUserRepos: PropTypes.func.isRequired,
-  repos: PropTypes.array.isRequired,
 };
 
 export default User;

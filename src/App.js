@@ -6,15 +6,12 @@ import User from "./components/users/User"; // User import
 import Search from "./components/users/Search"; // Search import
 import Alert from "./components/layout/Alert";
 import About from "./components/pages/About";
-import axios from "axios"; // axios import
 import GithubState from "./context/github/GithubState";
 
 import "./App.css";
 
 const App = () => {
   // defining the state- Syntax: [inputName, setInputName]=useState(defaultValue);
-  const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
   // showAlert function

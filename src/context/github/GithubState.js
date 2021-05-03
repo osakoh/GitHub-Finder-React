@@ -57,7 +57,17 @@ const GithubState = (props) => {
     dispatch({ type: GET_USER, payload: res.data });
   };
 
-  // get repos
+  // get user repos
+  const getUserRepos = async (username) => {
+    // set state before making the request
+    setLoading(); // formerly: this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    dispatch({ type: GET_REPOS, payload: res.data });
+  };
 
   // clearUsers from state
   const clearUsers = () => dispatch({ type: CLEAR_USERS });
@@ -80,6 +90,7 @@ const GithubState = (props) => {
         searchUsers,
         clearUsers,
         getSingleUser,
+        getUserRepos,
       }} // value contains any variable that should be available to the entire application
     >
       {/* because the entire application will be wrap with the provider*/}
