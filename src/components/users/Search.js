@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
-import PropTypes from "prop-types"; // PropType import: impt
 import GithubContext from "../../context/github/githubContext";
+import AlertContext from "../../context/alert/alertContext";
 
 // props are passed into the parenthesis in a functional component
 // destructuring showClearBtn & clearUsers from props
-const Search = ({ showAlert }) => {
-  // initialise GithubContext
+const Search = () => {
+  // initialise Context(Github & Alert)
   const githubContext = useContext(GithubContext);
+  const alertContext = useContext(AlertContext);
 
   // defining the state- Syntax: [inputName, setInputName]=useState('');
   const [text, setText] = useState("");
@@ -17,7 +18,7 @@ const Search = ({ showAlert }) => {
 
     // validates the input and ensures a text has been inputted
     if (text === "") {
-      showAlert("Empty input! Cannot search", "danger");
+      alertContext.setAlert("Empty input! Cannot search", "danger");
     } else {
       // call searchUsers from the githubContext
       githubContext.searchUsers(text);
@@ -56,11 +57,6 @@ const Search = ({ showAlert }) => {
       )}
     </div>
   );
-};
-
-// proptype for searchUsers
-Search.propTypes = {
-  showAlert: PropTypes.func.isRequired,
 };
 
 export default Search;

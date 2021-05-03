@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar"; // Navbar import
 import Users from "./components/users/Users"; // Users import
@@ -12,18 +12,6 @@ import AlertState from "./context/alert/AlertState";
 import "./App.css";
 
 const App = () => {
-  // defining the state- Syntax: [inputName, setInputName]=useState(defaultValue);
-  const [alert, setAlert] = useState(null);
-
-  // showAlert function
-  const showAlert = (msg, type) => {
-    // set the alert in the state
-    setAlert({ msg, type }); // this.setState({ alert: { msg, type } }); // same as this.setState({ alert: { msg: msg, type: type } });
-
-    //clear alert after 4 secs by setting the state of alert to null
-    setTimeout(() => setAlert(null), 4000); // setTimeout(() => this.setState({ alert: null }), 4000);
-  };
-
   return (
     <GithubState>
       <AlertState>
@@ -33,7 +21,7 @@ const App = () => {
             {/* passing the users & loading as props into the Users component */}
             {/* searchUsers: must be the same name as that in Search js */}
             <div className="container">
-              <Alert alert={alert} />
+              <Alert />
               <Switch>
                 {/* route for home page which contains multiple components */}
                 <Route
@@ -41,7 +29,7 @@ const App = () => {
                   path="/"
                   render={(props) => (
                     <Fragment>
-                      <Search showAlert={showAlert} />
+                      <Search />
                       <Users />
                     </Fragment>
                   )}
