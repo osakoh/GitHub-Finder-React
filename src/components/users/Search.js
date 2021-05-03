@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types"; // PropType import: impt
+import GithubContext from "../../context/github/githubContext";
 
 // props are passed into the parenthesis in a functional component
 // destructuring showClearBtn & clearUsers from props
-const Search = ({ showClearBtn, clearUsers, searchUsers, showAlert }) => {
+const Search = ({ showClearBtn, clearUsers, showAlert }) => {
+  // initialise GithubContext
+  const githubContext = useContext(GithubContext);
+
   // defining the state- Syntax: [inputName, setInputName]=useState('');
   const [text, setText] = useState("");
 
@@ -15,8 +19,8 @@ const Search = ({ showClearBtn, clearUsers, searchUsers, showAlert }) => {
     if (text === "") {
       showAlert("Empty input! Cannot search", "danger");
     } else {
-      // passing props upwards to the app js
-      searchUsers(text);
+      // call searchUsers from the githubContext
+      githubContext.searchUsers(text);
       // clear the search field
       setText("");
     }
@@ -53,7 +57,6 @@ const Search = ({ showClearBtn, clearUsers, searchUsers, showAlert }) => {
 
 // proptype for searchUsers
 Search.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
   clearUsers: PropTypes.func.isRequired,
   showClearBtn: PropTypes.bool.isRequired,
   showAlert: PropTypes.func.isRequired,
