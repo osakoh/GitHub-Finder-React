@@ -19,20 +19,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  // search users
-  const searchUsers = async (text) => {
-    // set state before making the request
-    setLoading(true); // formerly: this.setState({ loading: true });
-
-    const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-
-    // reset the states; individual user's details are stored in an 'items' array as shown in the github documentation
-    setUsers(res.data.items); // formerly: this.setState({ users: res.data.items, loading: false });
-    setLoading(false); // formerly: this.setState({ users: res.data.items, loading: false });
-  };
-
   // get a single Github user
   const getSingleUser = async (username) => {
     // set state before making the request
@@ -93,7 +79,6 @@ const App = () => {
                 render={(props) => (
                   <Fragment>
                     <Search
-                      searchUsers={searchUsers}
                       clearUsers={clearUsers}
                       showClearBtn={users.length > 0 ? true : false}
                       showAlert={showAlert}
